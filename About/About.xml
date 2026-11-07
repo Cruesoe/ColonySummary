@@ -8,11 +8,11 @@
     <li>1.6</li>
     <li>1.7</li>
   </supportedVersions>
-  <description>Adds a Summary tab that shows every colonist's gear in one table.
+  <description>Adds a Summary tab that shows every colonist on one row: health, skills, gear and protection.
 
-Each row shows a colonist's weapon, worn apparel and inventory as icons, with their overall sharp, blunt and heat armor, comfortable temperature range and mass carried. Damaged items show a condition bar. Hover over an item to see its name, quality and condition, and click it to open its info card. Click a column header to sort by it, and click a colonist's name to jump to them.
+Each row shows a colonist's age, fight-or-flee setting (changeable right there), bleeding with the time until death, conditions that need tending, every skill with its passion, weapon and worn apparel as icons, overall sharp, blunt and heat armor and comfortable temperature range (green while comfortable).
 
-Colonists in caravans and transporters are listed too.
+Hover over anything for details, and click an item to open its info card. Click a column header to sort by it, and click a colonist's name to jump to them. Colonists in caravans and transporters are listed too.
 
 Safe to add to or remove from an existing save.</description>
 </ModMetaData>

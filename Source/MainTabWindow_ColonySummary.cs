@@ -26,16 +26,16 @@ namespace ColonySummary
 
         public override void PostOpen()
         {
-            GearCache.Clear();
+            SummaryCache.Clear();
             base.PostOpen();
         }
 
         public override void DoWindowContents(Rect rect)
         {
             // Gear changed while open: rebuild column widths and sort order
-            if (GearCache.TableStale)
+            if (SummaryCache.TableStale)
             {
-                GearCache.TableStale = false;
+                SummaryCache.TableStale = false;
                 SetDirty();
             }
             base.DoWindowContents(rect);
@@ -44,7 +44,7 @@ namespace ColonySummary
         public override void PostClose()
         {
             base.PostClose();
-            GearCache.Clear();
+            SummaryCache.Clear();
         }
     }
 }

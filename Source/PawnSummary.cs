@@ -6,29 +6,45 @@ using Verse;
 
 namespace ColonySummary
 {
-    // One pawn's gear, armor, comfortable temperatures and mass, built when the gear changes
-    public class PawnGear
+    // One pawn's row data: gear icons are rebuilt when the gear changes, everything else once a game second
+    public class PawnSummary
     {
+        private const int StatsRefreshTicks = 60;
+        // Below this bleed rate the vanilla Health tab shows no bleeding
+        private const float MinBleedRate = 0.01f;
+
         public int signature;
         public readonly List<GearItem> weapons = new List<GearItem>();
         public readonly List<GearItem> apparel = new List<GearItem>();
-        public readonly List<GearItem> inventory = new List<GearItem>();
         public string weaponsTip = "";
         public string apparelTip = "";
-        public string inventoryTip = "";
         public string? weaponLabel;
 
         public readonly float[] armor = new float[3];
         public readonly string[] armorText = new string[3];
         public float comfyMin;
         public string comfyText = "";
-        public float mass;
-        public string massText = "";
-        public bool overweight;
+        public bool comfyNow;
+        public string comfyTip = "";
+
+        private int statsTick = int.MinValue;
+        private int statsHediffCount = -1;
+        public int ageTicks;
+        public string ageText = "";
+        public string ageTip = "";
+        public float bleedRate;
+        // Ticks until death by blood loss, int.MaxValue when not bleeding or not at risk soon
+        public int bleedDeathTicks = int.MaxValue;
+        public string bleedText = "";
+        public string bleedTip = "";
+        public bool bleedLethal;
+        public int tendCount;
+        public string tendText = "";
+        public string tendTip = "";
 
         private static readonly List<Apparel> tmpApparel = new List<Apparel>();
 
-        // Changes whenever an item is added, removed, damaged or restacked, or a hediff is added or removed
+        // Changes whenever a weapon or apparel item is added, removed or damaged
         public static int Signature(Pawn pawn)
         {
             unchecked
@@ -45,13 +61,7 @@ namespace ColonySummary
                     List<Apparel> list = pawn.apparel.WornApparel;
                     for (int i = 0; i < list.Count; i++) hash = Mix(hash, list[i]);
                 }
-                hash = hash * 31 + 2;
-                if (pawn.inventory != null)
-                {
-                    ThingOwner<Thing> list = pawn.inventory.innerContainer;
-                    for (int i = 0; i < list.Count; i++) hash = Mix(hash, list[i]);
-                }
-                return hash * 31 + pawn.health.hediffSet.hediffs.Count;
+                return hash;
             }
         }
 
@@ -63,12 +73,11 @@ namespace ColonySummary
             }
         }
 
-        public void Rebuild(Pawn pawn, int newSignature)
+        public void RebuildGear(Pawn pawn, int newSignature)
         {
             signature = newSignature;
             weapons.Clear();
             apparel.Clear();
-            inventory.Clear();
 
             if (pawn.equipment != null)
             {
@@ -87,15 +96,19 @@ namespace ColonySummary
                 tmpApparel.Clear();
             }
 
-            if (pawn.inventory != null)
-            {
-                ThingOwner<Thing> list = pawn.inventory.innerContainer;
-                for (int i = 0; i < list.Count; i++) inventory.Add(new GearItem(list[i], ItemTip(pawn, list[i])));
-            }
-
             weaponsTip = ListTip(weapons);
             apparelTip = ListTip(apparel);
-            inventoryTip = ListTip(inventory);
+            statsTick = int.MinValue;
+        }
+
+        // Stats, age and health, rebuilt once a game second, when hediffs change and after a gear change
+        public void RefreshStats(Pawn pawn)
+        {
+            int now = Find.TickManager.TicksGame;
+            List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
+            if (now - statsTick < StatsRefreshTicks && now >= statsTick && hediffs.Count == statsHediffCount) return;
+            statsTick = now;
+            statsHediffCount = hediffs.Count;
 
             SetArmor(pawn, 0, StatDefOf.ArmorRating_Sharp);
             SetArmor(pawn, 1, StatDefOf.ArmorRating_Blunt);
@@ -104,11 +117,56 @@ namespace ColonySummary
             comfyMin = pawn.GetStatValue(StatDefOf.ComfyTemperatureMin);
             float comfyMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax);
             comfyText = comfyMin.ToStringTemperature("F0") + " ~ " + comfyMax.ToStringTemperature("F0");
+            float ambient = pawn.AmbientTemperature;
+            comfyNow = ambient >= comfyMin && ambient <= comfyMax;
+            comfyTip = "ColonySummary_CurrentTemperature".Translate(ambient.ToStringTemperature("F0"));
 
-            mass = MassUtility.GearAndInventoryMass(pawn);
-            float capacity = MassUtility.Capacity(pawn);
-            overweight = mass > capacity;
-            massText = mass.ToString("0.#") + " / " + capacity.ToStringMass();
+            ageTicks = (int)(pawn.ageTracker.AgeBiologicalTicks / 2500L);
+            ageText = pawn.ageTracker.AgeBiologicalYears.ToStringCached();
+            ageTip = pawn.ageTracker.AgeTooltipString;
+
+            bleedRate = pawn.health.hediffSet.BleedRateTotal;
+            bleedDeathTicks = int.MaxValue;
+            bleedLethal = false;
+            bleedText = "";
+            bleedTip = "";
+            if (bleedRate > MinBleedRate)
+            {
+                // Same text as the vanilla Health tab
+                string tip = "BleedingRate".Translate() + ": " + bleedRate.ToStringPercent() + "/" + "LetterDay".Translate();
+                int ticks = HealthUtility.TicksUntilDeathDueToBloodLoss(pawn);
+                if (ModsConfig.BiotechActive && pawn.genes != null && pawn.genes.HasActiveGene(GeneDefOf.Deathless))
+                {
+                    tip += " (" + "Deathless".Translate() + ")";
+                    bleedText = bleedRate.ToStringPercent();
+                }
+                else if (ticks >= GenDate.TicksPerDay)
+                {
+                    tip += " (" + "WontBleedOutSoon".Translate() + ")";
+                    bleedText = bleedRate.ToStringPercent();
+                }
+                else
+                {
+                    tip += " (" + "TimeToDeath".Translate(ticks.ToStringTicksToPeriod()) + ")";
+                    bleedText = ticks.ToStringTicksToPeriod(allowSeconds: false, shortForm: true, canUseDecimals: false);
+                    bleedDeathTicks = ticks;
+                    bleedLethal = true;
+                }
+                bleedTip = tip;
+            }
+
+            StringBuilder sb = new StringBuilder();
+            tendCount = 0;
+            for (int i = 0; i < hediffs.Count; i++)
+            {
+                if (!hediffs[i].TendableNow()) continue;
+                if (tendCount > 0) sb.AppendLine();
+                sb.Append(hediffs[i].LabelCap);
+                if (hediffs[i].Part != null) sb.Append(" (").Append(hediffs[i].Part.LabelCap).Append(")");
+                tendCount++;
+            }
+            tendText = tendCount > 0 ? tendCount.ToStringCached() : "";
+            tendTip = sb.ToString();
         }
 
         // Overall armor across body parts, as the vanilla Gear tab calculates it

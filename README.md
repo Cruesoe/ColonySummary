@@ -1,3 +1,3 @@
 # Colony Summary
 
-Adds a Summary tab that shows every colonist's gear in one vanilla-style table: weapon, worn apparel and inventory as icons, plus overall sharp, blunt and heat armor, comfortable temperature range and mass carried. Damaged items show a condition bar, hovering an item shows its name, quality and condition, and clicking it opens its info card. Columns sort by clicking their headers, and colonists in caravans and transporters are listed too.
+Adds a Summary tab that shows every colonist on one row of a vanilla-style table: age, the fight-or-flee setting (changeable right there), bleeding with time until death, conditions that need tending, every skill with its passion, weapon, worn apparel, overall sharp, blunt and heat armor and comfortable temperature range (green while comfortable). Hover over anything for details, click an item to open its info card, and click a column header to sort by it. Colonists in caravans and transporters are listed too.
