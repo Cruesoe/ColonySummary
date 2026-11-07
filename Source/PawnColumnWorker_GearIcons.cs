@@ -10,7 +10,6 @@ namespace ColonySummary
     {
         private const float IconSize = 28f;
         private const float Step = 30f;
-        private const int MaxOptimalIcons = 14;
 
         // "+N" labels, built once per count; session lifetime, holds only strings
         private static readonly Dictionary<int, string> overflowLabels = new Dictionary<int, string>();
@@ -83,12 +82,8 @@ namespace ColonySummary
             return label;
         }
 
+        // Wide enough for every item of the pawn with the most, so the table never shrinks it to "+N"
         public override int GetMinWidth(PawnTable table)
-        {
-            return Mathf.Max(base.GetMinWidth(table), Mathf.CeilToInt(Step));
-        }
-
-        public override int GetOptimalWidth(PawnTable table)
         {
             int most = 1;
             List<Pawn> pawns = table.PawnsListForReading;
@@ -96,8 +91,10 @@ namespace ColonySummary
             {
                 most = Mathf.Max(most, Items(SummaryCache.Get(pawns[i])).Count);
             }
-            return Mathf.Max(GetMinWidth(table), Mathf.CeilToInt(Mathf.Min(most, MaxOptimalIcons) * Step));
+            return Mathf.Max(base.GetMinWidth(table), Mathf.CeilToInt(most * Step));
         }
+
+        public override int GetOptimalWidth(PawnTable table) => GetMinWidth(table);
 
         public override int Compare(Pawn a, Pawn b)
         {
