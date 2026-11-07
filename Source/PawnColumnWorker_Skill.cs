@@ -9,7 +9,8 @@ namespace ColonySummary
     [StaticConstructorOnStartup]
     public class PawnColumnWorker_Skill : PawnColumnWorker
     {
-        private const float PassionSize = 20f;
+        // Size of the Work tab's priority box
+        private const float BoxSize = 25f;
 
         private static readonly Texture2D BarTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.1f));
         private static readonly Texture2D SortingTex = ContentFinder<Texture2D>.Get("UI/Icons/Sorting");
@@ -91,7 +92,7 @@ namespace ColonySummary
                 TooltipHandler.TipRegion(inner, new TipSignal(SkillTooltip.Get(pawn, skill), Def.skill!.GetHashCode() * 397945));
             }
             Text.Font = GameFont.Small;
-            Text.Anchor = TextAnchor.MiddleRight;
+            Text.Anchor = TextAnchor.MiddleCenter;
             if (skill.TotallyDisabled)
             {
                 GUI.color = DisabledColor;
@@ -101,12 +102,14 @@ namespace ColonySummary
             {
                 int level = skill.GetLevel();
                 Widgets.FillableBar(inner, Mathf.Max(0.01f, level / 20f), BarTex, null, false);
+                // Grey flame in the bottom-right quarter of a box around the number, behind it, as on the Work tab
                 if (skill.passion != Passion.None)
                 {
-                    Rect icon = new Rect(inner.x, inner.y + (inner.height - PassionSize) / 2f, PassionSize, PassionSize);
-                    GUI.DrawTexture(icon, skill.passion == Passion.Major ? SkillUI.PassionMajorIcon : SkillUI.PassionMinorIcon);
+                    Rect box = new Rect(inner.center.x - BoxSize / 2f, inner.center.y - BoxSize / 2f, BoxSize, BoxSize);
+                    Rect icon = new Rect(box.center.x, box.center.y, BoxSize / 2f, BoxSize / 2f);
+                    GUI.DrawTexture(icon, skill.passion == Passion.Major ? WidgetsWork.PassionWorkboxMajorIcon : WidgetsWork.PassionWorkboxMinorIcon);
                 }
-                Widgets.Label(new Rect(inner.x, inner.y, inner.width - 2f, inner.height), level.ToStringCached());
+                Widgets.Label(inner, level.ToStringCached());
             }
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.UpperLeft;
