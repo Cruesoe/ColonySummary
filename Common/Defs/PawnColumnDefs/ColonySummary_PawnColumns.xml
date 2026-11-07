@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Defs>
   <PawnColumnDef>
+    <defName>ColonySummary_Age</defName>
+    <label>age</label>
+    <workerClass>ColonySummary.PawnColumnWorker_Age</workerClass>
+    <sortable>true</sortable>
+    <headerTip>Biological age in years.</headerTip>
+  </PawnColumnDef>
+
+  <PawnColumnDef>
+    <defName>ColonySummary_Bleeding</defName>
+    <headerIcon>UI/Icons/Medical/Bleeding</headerIcon>
+    <workerClass>ColonySummary.PawnColumnWorker_Bleeding</workerClass>
+    <sortable>true</sortable>
+    <headerTip>Bleeding. Red shows the time until death by blood loss; yellow shows the bleed rate per day when there's no risk of bleeding out soon.</headerTip>
+  </PawnColumnDef>
+
+  <PawnColumnDef>
+    <defName>ColonySummary_Tend</defName>
+    <label>tend</label>
+    <workerClass>ColonySummary.PawnColumnWorker_Tend</workerClass>
+    <sortable>true</sortable>
+    <headerTip>Conditions that need tending now.</headerTip>
+  </PawnColumnDef>
+
+  <!-- Replaced at startup by one column per skill (SkillColumnGenerator) -->
+  <PawnColumnDef>
+    <defName>ColonySummary_Skills</defName>
+    <workerClass>PawnColumnWorker_Gap</workerClass>
+    <gap>0</gap>
+  </PawnColumnDef>
+
+  <PawnColumnDef>
     <defName>ColonySummary_Weapon</defName>
     <label>weapon</label>
     <workerClass>ColonySummary.PawnColumnWorker_Weapon</workerClass>
@@ -53,13 +84,5 @@
     <workerClass>ColonySummary.PawnColumnWorker_Mass</workerClass>
     <sortable>true</sortable>
     <headerTip>Mass of gear and inventory carried, out of carrying capacity.</headerTip>
-  </PawnColumnDef>
-
-  <PawnColumnDef>
-    <defName>ColonySummary_Inventory</defName>
-    <label>inventory</label>
-    <workerClass>ColonySummary.PawnColumnWorker_Inventory</workerClass>
-    <sortable>true</sortable>
-    <headerTip>Sorts by the number of stacks carried.</headerTip>
   </PawnColumnDef>
 </Defs>

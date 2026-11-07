@@ -3,7 +3,7 @@
   <MainButtonDef>
     <defName>ColonySummary_Summary</defName>
     <label>summary</label>
-    <description>See every colonist's weapon, apparel, inventory, armor, comfortable temperature range and mass carried in one table.</description>
+    <description>See every colonist's age, hostility response, bleeding, tending needs, skills, weapon, apparel, armor, comfortable temperature range and mass carried in one table.</description>
     <tabWindowClass>ColonySummary.MainTabWindow_ColonySummary</tabWindowClass>
     <order>35</order>
     <closesWorldView>true</closesWorldView>

@@ -15,14 +15,14 @@ namespace ColonySummary
         // "+N" labels, built once per count; session lifetime, holds only strings
         private static readonly Dictionary<int, string> overflowLabels = new Dictionary<int, string>();
 
-        protected abstract List<GearItem> Items(PawnGear gear);
+        protected abstract List<GearItem> Items(PawnSummary summary);
 
-        protected abstract string ListTip(PawnGear gear);
+        protected abstract string ListTip(PawnSummary summary);
 
         public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
         {
-            PawnGear gear = GearCache.Get(pawn);
-            List<GearItem> items = Items(gear);
+            PawnSummary summary = SummaryCache.Get(pawn);
+            List<GearItem> items = Items(summary);
             if (items.Count == 0) return;
 
             int fit = Mathf.Max(1, Mathf.FloorToInt(rect.width / Step));
@@ -42,7 +42,7 @@ namespace ColonySummary
                 if (Mouse.IsOver(more))
                 {
                     Widgets.DrawHighlight(more);
-                    TooltipHandler.TipRegion(more, ListTip(gear));
+                    TooltipHandler.TipRegion(more, ListTip(summary));
                 }
             }
         }
@@ -94,14 +94,14 @@ namespace ColonySummary
             List<Pawn> pawns = table.PawnsListForReading;
             for (int i = 0; i < pawns.Count; i++)
             {
-                most = Mathf.Max(most, Items(GearCache.Get(pawns[i])).Count);
+                most = Mathf.Max(most, Items(SummaryCache.Get(pawns[i])).Count);
             }
             return Mathf.Max(GetMinWidth(table), Mathf.CeilToInt(Mathf.Min(most, MaxOptimalIcons) * Step));
         }
 
         public override int Compare(Pawn a, Pawn b)
         {
-            return Items(GearCache.Get(a)).Count.CompareTo(Items(GearCache.Get(b)).Count);
+            return Items(SummaryCache.Get(a)).Count.CompareTo(Items(SummaryCache.Get(b)).Count);
         }
     }
 }

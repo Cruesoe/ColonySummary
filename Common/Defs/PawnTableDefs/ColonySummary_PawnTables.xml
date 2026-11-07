@@ -5,6 +5,14 @@
     <workerClass>PawnTable_PlayerPawns</workerClass>
     <columns>
       <li>LabelShortWithIcon</li>
+      <li>ColonySummary_Age</li>
+      <li>GapTiny</li>
+      <li>HostilityResponse</li>
+      <li>GapTiny</li>
+      <li>ColonySummary_Bleeding</li>
+      <li>ColonySummary_Tend</li>
+      <li>GapTiny</li>
+      <li>ColonySummary_Skills</li>
       <li>GapTiny</li>
       <li>ColonySummary_Weapon</li>
       <li>GapTiny</li>
@@ -17,8 +25,6 @@
       <li>ColonySummary_Comfort</li>
       <li>GapTiny</li>
       <li>ColonySummary_Mass</li>
-      <li>GapTiny</li>
-      <li>ColonySummary_Inventory</li>
       <li>RemainingSpace</li>
     </columns>
   </PawnTableDef>

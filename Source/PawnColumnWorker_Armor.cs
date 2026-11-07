@@ -1,7 +1,7 @@
 namespace ColonySummary
 {
     // Sharp, blunt or heat armor, chosen by the column's def
-    public class PawnColumnWorker_Armor : PawnColumnWorker_GearText
+    public class PawnColumnWorker_Armor : PawnColumnWorker_SummaryText
     {
         private int index = -1;
 
@@ -19,8 +19,8 @@ namespace ColonySummary
 
         protected override int Width => 60;
 
-        protected override string CellText(PawnGear gear) => gear.armorText[Index];
+        protected override string CellText(PawnSummary summary) => summary.armorText[Index];
 
-        protected override float Value(PawnGear gear) => gear.armor[Index];
+        protected override float Value(PawnSummary summary) => summary.armor[Index];
     }
 }
