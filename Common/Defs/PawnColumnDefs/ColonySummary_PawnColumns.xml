@@ -84,12 +84,4 @@
     <sortable>true</sortable>
     <headerTip>Comfortable temperature range. Sorts by the lowest comfortable temperature.</headerTip>
   </PawnColumnDef>
-
-  <PawnColumnDef>
-    <defName>ColonySummary_Mass</defName>
-    <label>mass</label>
-    <workerClass>ColonySummary.PawnColumnWorker_Mass</workerClass>
-    <sortable>true</sortable>
-    <headerTip>Mass of gear and inventory carried, out of carrying capacity.</headerTip>
-  </PawnColumnDef>
 </Defs>

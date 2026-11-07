@@ -12,7 +12,6 @@ See at a glance who's bleeding out, who needs tending, who's best at what and wh
 [*][b]Gear:[/b] Weapon and worn apparel as icons. Damaged items show a condition bar, in red below half. Hover for name, quality and condition, and click to open the info card.
 [*][b]Protection:[/b] Overall sharp, blunt and heat armor, calculated the same way as the Gear tab.
 [*][b]Comfort:[/b] Each colonist's comfortable temperature range.
-[*][b]Mass:[/b] Mass carried out of carrying capacity, in red when over capacity.
 [*][b]Sorting:[/b] Click a column header to sort by it. Click a colonist's name to jump to them.
 [*][b]Everyone:[/b] Colonists in caravans and transporters are listed too.
 [/list]

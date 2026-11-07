@@ -10,7 +10,7 @@
   </supportedVersions>
   <description>Adds a Summary tab that shows every colonist on one row: health, skills, gear and protection.
 
-Each row shows a colonist's age, fight-or-flee setting (changeable right there), bleeding with the time until death, conditions that need tending, every skill with its passion, weapon and worn apparel as icons, overall sharp, blunt and heat armor, comfortable temperature range and mass carried.
+Each row shows a colonist's age, fight-or-flee setting (changeable right there), bleeding with the time until death, conditions that need tending, every skill with its passion, weapon and worn apparel as icons overall sharp, blunt and heat armor and comfortable temperature range.
 
 Hover over anything for details, and click an item to open its info card. Click a column header to sort by it, and click a colonist's name to jump to them. Colonists in caravans and transporters are listed too.
 

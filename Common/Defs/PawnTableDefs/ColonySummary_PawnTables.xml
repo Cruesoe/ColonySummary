@@ -23,8 +23,6 @@
       <li>ColonySummary_ArmorHeat</li>
       <li>GapTiny</li>
       <li>ColonySummary_Comfort</li>
-      <li>GapTiny</li>
-      <li>ColonySummary_Mass</li>
       <li>RemainingSpace</li>
     </columns>
   </PawnTableDef>

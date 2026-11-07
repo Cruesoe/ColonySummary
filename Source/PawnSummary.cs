@@ -24,9 +24,6 @@ namespace ColonySummary
         public readonly string[] armorText = new string[3];
         public float comfyMin;
         public string comfyText = "";
-        public float mass;
-        public string massText = "";
-        public bool overweight;
 
         private int statsTick = int.MinValue;
         private int statsHediffCount = -1;
@@ -118,11 +115,6 @@ namespace ColonySummary
             comfyMin = pawn.GetStatValue(StatDefOf.ComfyTemperatureMin);
             float comfyMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax);
             comfyText = comfyMin.ToStringTemperature("F0") + " ~ " + comfyMax.ToStringTemperature("F0");
-
-            mass = MassUtility.GearAndInventoryMass(pawn);
-            float capacity = MassUtility.Capacity(pawn);
-            overweight = mass > capacity;
-            massText = mass.ToString("0.#") + " / " + capacity.ToStringMass();
 
             ageTicks = (int)(pawn.ageTracker.AgeBiologicalTicks / 2500L);
             ageText = pawn.ageTracker.AgeBiologicalYears.ToStringCached();
