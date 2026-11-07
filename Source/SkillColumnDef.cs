@@ -6,7 +6,5 @@ namespace ColonySummary
     public class SkillColumnDef : PawnColumnDef
     {
         public SkillDef? skill;
-        // Position among the skill columns; odd columns draw their header lower so labels don't overlap
-        public int skillIndex;
     }
 }

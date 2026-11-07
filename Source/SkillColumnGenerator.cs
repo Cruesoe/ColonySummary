@@ -27,7 +27,6 @@ namespace ColonySummary
                     sortable = true,
                     headerTip = skills[i].description,
                     skill = skills[i],
-                    skillIndex = i,
                     modContentPack = marker.modContentPack
                 };
                 DefDatabase<PawnColumnDef>.Add(column);

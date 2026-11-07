@@ -9,15 +9,18 @@ namespace ColonySummary
     [StaticConstructorOnStartup]
     public class PawnColumnWorker_Skill : PawnColumnWorker
     {
-        private const float HeaderHeight = 50f;
-        private const float HeaderStagger = 20f;
         private const float PassionSize = 20f;
 
         private static readonly Texture2D BarTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 1f, 1f, 0.1f));
+        private static readonly Texture2D SortingTex = ContentFinder<Texture2D>.Get("UI/Icons/Sorting");
+        private static readonly Texture2D SortingDescendingTex = ContentFinder<Texture2D>.Get("UI/Icons/SortingDescending");
         private static readonly Color DisabledColor = new Color(1f, 1f, 1f, 0.5f);
 
+        // Header height that fits the longest skill label when inclined; session lifetime, from defs only
+        private static int headerHeight;
+
         private string? label;
-        private Vector2 labelSize;
+        private float labelHeight;
 
         private SkillColumnDef Def => (SkillColumnDef)def;
 
@@ -29,23 +32,52 @@ namespace ColonySummary
                 {
                     label = Def.skill!.skillLabel.CapitalizeFirst();
                     Text.Font = GameFont.Small;
-                    labelSize = Text.CalcSize(label);
+                    labelHeight = Text.CalcSize(label).y;
                 }
                 return label;
             }
         }
 
+        // Inclined label like Division of Labor's Work tab; clicks and hover are tested in the label's rotated space
         public override void DoHeader(Rect rect, PawnTable table)
         {
-            base.DoHeader(rect, table);
+            if (table.SortingBy == def)
+            {
+                Texture2D tex = table.SortingDescending ? SortingDescendingTex : SortingTex;
+                GUI.DrawTexture(new Rect(rect.center.x - tex.width / 2f, rect.yMax - tex.height, tex.width, tex.height), tex);
+            }
+
             string text = Label;
-            Text.Font = GameFont.Small;
-            Rect labelRect = new Rect(rect.center.x - labelSize.x / 2f, rect.y + (Def.skillIndex % 2 == 1 ? HeaderStagger : 0f), labelSize.x, labelSize.y);
-            MouseoverSounds.DoRegion(labelRect);
-            Widgets.Label(labelRect, text);
-            GUI.color = new Color(1f, 1f, 1f, 0.3f);
-            Widgets.DrawLineVertical(labelRect.center.x, labelRect.yMax - 3f, rect.y + HeaderHeight - labelRect.yMax + 3f);
-            GUI.color = Color.white;
+            (Rect labelRect, Matrix4x4 labelMatrix) = InclinedLabel.Draw(rect, text, labelHeight);
+
+            Matrix4x4 originalMatrix = GUI.matrix;
+            GUI.matrix = labelMatrix;
+            bool mouseOver = labelRect.Contains(Event.current.mousePosition);
+            if (mouseOver) Widgets.DrawHighlight(labelRect);
+            bool clicked = Widgets.ButtonInvisible(labelRect);
+            GUI.matrix = originalMatrix;
+
+            if (clicked) HeaderClicked(rect, table);
+            if (mouseOver)
+            {
+                MouseoverSounds.DoRegion(rect);
+                TooltipHandler.TipRegion(new Rect(0f, 0f, UI.screenWidth, UI.screenHeight), GetHeaderTip(table));
+            }
+        }
+
+        public override int GetMinHeaderHeight(PawnTable table)
+        {
+            if (headerHeight == 0)
+            {
+                float longest = 0f;
+                Text.Font = GameFont.Small;
+                foreach (SkillDef skill in DefDatabase<SkillDef>.AllDefs)
+                {
+                    longest = Mathf.Max(longest, Text.CalcSize(skill.skillLabel.CapitalizeFirst()).x);
+                }
+                headerHeight = Mathf.CeilToInt(InclinedLabel.HeaderHeightFor(longest));
+            }
+            return Mathf.Max(base.GetMinHeaderHeight(table), headerHeight);
         }
 
         public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
@@ -79,8 +111,6 @@ namespace ColonySummary
             GUI.color = Color.white;
             Text.Anchor = TextAnchor.UpperLeft;
         }
-
-        public override int GetMinHeaderHeight(PawnTable table) => Mathf.Max(base.GetMinHeaderHeight(table), (int)HeaderHeight);
 
         public override int GetMinWidth(PawnTable table) => Mathf.Max(base.GetMinWidth(table), 40);
 

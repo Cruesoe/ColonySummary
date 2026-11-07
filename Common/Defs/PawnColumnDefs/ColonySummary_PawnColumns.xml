@@ -31,6 +31,13 @@
     <gap>0</gap>
   </PawnColumnDef>
 
+  <!-- Keeps the last inclined skill label clear of the next column's header -->
+  <PawnColumnDef>
+    <defName>ColonySummary_GapSkills</defName>
+    <workerClass>PawnColumnWorker_Gap</workerClass>
+    <gap>16</gap>
+  </PawnColumnDef>
+
   <PawnColumnDef>
     <defName>ColonySummary_Weapon</defName>
     <label>weapon</label>
