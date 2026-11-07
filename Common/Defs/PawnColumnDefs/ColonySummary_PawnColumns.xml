@@ -82,6 +82,6 @@
     <label>comfortable</label>
     <workerClass>ColonySummary.PawnColumnWorker_Comfort</workerClass>
     <sortable>true</sortable>
-    <headerTip>Comfortable temperature range. Sorts by the lowest comfortable temperature.</headerTip>
+    <headerTip>Comfortable temperature range, in green while the current temperature is inside it. Sorts by the lowest comfortable temperature.</headerTip>
   </PawnColumnDef>
 </Defs>

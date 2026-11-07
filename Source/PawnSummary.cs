@@ -24,6 +24,8 @@ namespace ColonySummary
         public readonly string[] armorText = new string[3];
         public float comfyMin;
         public string comfyText = "";
+        public bool comfyNow;
+        public string comfyTip = "";
 
         private int statsTick = int.MinValue;
         private int statsHediffCount = -1;
@@ -115,6 +117,9 @@ namespace ColonySummary
             comfyMin = pawn.GetStatValue(StatDefOf.ComfyTemperatureMin);
             float comfyMax = pawn.GetStatValue(StatDefOf.ComfyTemperatureMax);
             comfyText = comfyMin.ToStringTemperature("F0") + " ~ " + comfyMax.ToStringTemperature("F0");
+            float ambient = pawn.AmbientTemperature;
+            comfyNow = ambient >= comfyMin && ambient <= comfyMax;
+            comfyTip = "ColonySummary_CurrentTemperature".Translate(ambient.ToStringTemperature("F0"));
 
             ageTicks = (int)(pawn.ageTracker.AgeBiologicalTicks / 2500L);
             ageText = pawn.ageTracker.AgeBiologicalYears.ToStringCached();
