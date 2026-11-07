@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+  <PawnColumnDef>
+    <defName>ColonySummary_Weapon</defName>
+    <label>weapon</label>
+    <workerClass>ColonySummary.PawnColumnWorker_Weapon</workerClass>
+    <sortable>true</sortable>
+  </PawnColumnDef>
+
+  <PawnColumnDef>
+    <defName>ColonySummary_Apparel</defName>
+    <label>apparel</label>
+    <workerClass>ColonySummary.PawnColumnWorker_Apparel</workerClass>
+    <sortable>true</sortable>
+    <headerTip>Sorts by the number of items worn.</headerTip>
+  </PawnColumnDef>
+
+  <PawnColumnDef>
+    <defName>ColonySummary_ArmorSharp</defName>
+    <label>sharp</label>
+    <workerClass>ColonySummary.PawnColumnWorker_Armor</workerClass>
+    <sortable>true</sortable>
+    <headerTip>Overall sharp armor, from apparel and body.</headerTip>
+  </PawnColumnDef>
+
+  <PawnColumnDef>
+    <defName>ColonySummary_ArmorBlunt</defName>
+    <label>blunt</label>
+    <workerClass>ColonySummary.PawnColumnWorker_Armor</workerClass>
+    <sortable>true</sortable>
+    <headerTip>Overall blunt armor, from apparel and body.</headerTip>
+  </PawnColumnDef>
+
+  <PawnColumnDef>
+    <defName>ColonySummary_ArmorHeat</defName>
+    <label>heat</label>
+    <workerClass>ColonySummary.PawnColumnWorker_Armor</workerClass>
+    <sortable>true</sortable>
+    <headerTip>Overall heat armor, from apparel and body.</headerTip>
+  </PawnColumnDef>
+
+  <PawnColumnDef>
+    <defName>ColonySummary_Comfort</defName>
+    <label>comfortable</label>
+    <workerClass>ColonySummary.PawnColumnWorker_Comfort</workerClass>
+    <sortable>true</sortable>
+    <headerTip>Comfortable temperature range. Sorts by the lowest comfortable temperature.</headerTip>
+  </PawnColumnDef>
+
+  <PawnColumnDef>
+    <defName>ColonySummary_Mass</defName>
+    <label>mass</label>
+    <workerClass>ColonySummary.PawnColumnWorker_Mass</workerClass>
+    <sortable>true</sortable>
+    <headerTip>Mass of gear and inventory carried, out of carrying capacity.</headerTip>
+  </PawnColumnDef>
+
+  <PawnColumnDef>
+    <defName>ColonySummary_Inventory</defName>
+    <label>inventory</label>
+    <workerClass>ColonySummary.PawnColumnWorker_Inventory</workerClass>
+    <sortable>true</sortable>
+    <headerTip>Sorts by the number of stacks carried.</headerTip>
+  </PawnColumnDef>
+</Defs>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Colony Summary</name>
+  <author>Cruesoe</author>
+  <packageId>cruesoe.colonysummary</packageId>
+  <modVersion IgnoreIfNoMatchingField="True">261107</modVersion>
+  <supportedVersions>
+    <li>1.6</li>
+    <li>1.7</li>
+  </supportedVersions>
+  <description>Adds a Summary tab that shows every colonist's gear in one table.
+
+Each row shows a colonist's weapon, worn apparel and inventory as icons, with their overall sharp, blunt and heat armor, comfortable temperature range and mass carried. Damaged items show a condition bar. Hover over an item to see its name, quality and condition, and click it to open its info card. Click a column header to sort by it, and click a colonist's name to jump to them.
+
+Colonists in caravans and transporters are listed too.
+
+Safe to add to or remove from an existing save.</description>
+</ModMetaData>

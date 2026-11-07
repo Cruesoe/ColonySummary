@@ -1,0 +1,21 @@
+[b]Adds a Summary tab that shows every colonist's gear in one table.[/b]
+
+See at a glance who's carrying what, who's under-armored and who needs warmer clothes, without clicking through each colonist's Gear tab. It looks and works like the vanilla Assign and Animals tabs.
+
+[h2]Features[/h2]
+[list]
+[*][b]Gear:[/b] Each colonist's weapon, worn apparel and inventory are shown as icons, with stack counts.
+[*][b]Condition:[/b] Damaged items show a condition bar, in red below half.
+[*][b]Details:[/b] Hover over an item to see its name, quality and condition, and click it to open its info card.
+[*][b]Protection:[/b] Overall sharp, blunt and heat armor, calculated the same way as the Gear tab.
+[*][b]Comfort:[/b] Each colonist's comfortable temperature range.
+[*][b]Mass:[/b] Mass carried out of carrying capacity, in red when over capacity.
+[*][b]Sorting:[/b] Click a column header to sort by it. Click a colonist's name to jump to them.
+[*][b]Everyone:[/b] Colonists in caravans and transporters are listed too.
+[/list]
+
+[h2]Compatibility[/h2]
+Safe to add to or remove from an existing save.
+
+[h2]Credits[/h2]
+Thanks to [b]Dubs Mint Menus[/b] by Dubwise, whose gear screen inspired this tab.
